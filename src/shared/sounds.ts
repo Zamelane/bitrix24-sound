@@ -13,6 +13,11 @@ export const SOUND_SLOT_IDS = [
 
 export type SoundSlotId = (typeof SOUND_SLOT_IDS)[number]
 
+export const INCOMING_MESSAGE_SLOT_IDS = [
+  "new-message-1",
+  "new-message-2",
+] as const satisfies readonly SoundSlotId[]
+
 export type SoundGroup = "messages" | "calls"
 
 export interface SoundSlot {
@@ -220,6 +225,12 @@ export function slotIdForUrl(url: string): SoundSlotId | null {
   }
 
   return null
+}
+
+export function isIncomingMessageSlot(
+  slotId: SoundSlotId,
+): slotId is (typeof INCOMING_MESSAGE_SLOT_IDS)[number] {
+  return (INCOMING_MESSAGE_SLOT_IDS as readonly string[]).includes(slotId)
 }
 
 export function presetPublicPath(presetId: PresetId): string {

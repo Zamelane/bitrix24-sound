@@ -1,6 +1,15 @@
-import { SOUND_MAP_MESSAGE, slotIdForUrl } from "src/shared/sounds"
+import {
+  INCOMING_MESSAGE_SLOT_IDS,
+  isIncomingMessageSlot,
+  SOUND_MAP_MESSAGE,
+  slotIdForUrl,
+  type SoundSlotId,
+} from "src/shared/sounds"
 
 type ReplacementMap = Record<string, string | null>
+
+const INCOMING_DEBOUNCE_KEY = "b24-sound:incoming-at"
+const INCOMING_DEBOUNCE_MS = 500
 
 let replacementMap: ReplacementMap = {}
 let mapReady = false
@@ -47,22 +56,69 @@ function resolveRequestUrl(input: RequestInfo | URL): string {
   return input.url
 }
 
-function patchExistingBitrixAudio() {
-  for (const node of Array.from(
-    document.querySelectorAll("audio source, video source, audio[src]"),
-  )) {
-    if (
-      !(node instanceof HTMLMediaElement || node instanceof HTMLSourceElement)
-    ) {
-      continue
+function slotFromMedia(media: HTMLMediaElement): SoundSlotId | null {
+  const direct = slotIdForUrl(media.currentSrc || media.src)
+  if (direct) {
+    return direct
+  }
+
+  for (const source of Array.from(media.querySelectorAll("source"))) {
+    const slotId = slotIdForUrl(source.getAttribute("src") ?? "")
+    if (slotId) {
+      return slotId
     }
-    const current = node.getAttribute("src")
+  }
+
+  return null
+}
+
+function replacementForSlot(slotId: SoundSlotId): string | null {
+  if (!mapReady) {
+    return null
+  }
+  return replacementMap[slotId] ?? null
+}
+
+function shouldPlayIncomingSound(): boolean {
+  const now = Date.now()
+  try {
+    const previous = Number(localStorage.getItem(INCOMING_DEBOUNCE_KEY) ?? 0)
+    if (previous > 0 && now - previous < INCOMING_DEBOUNCE_MS) {
+      return false
+    }
+    localStorage.setItem(INCOMING_DEBOUNCE_KEY, String(now))
+  } catch {
+    // Ignore storage errors and allow playback.
+  }
+  return true
+}
+
+function collapseBitrixAudio(media: HTMLMediaElement) {
+  const slotId = slotFromMedia(media)
+  const replacement = slotId ? replacementForSlot(slotId) : null
+  if (!slotId || !replacement) {
+    return
+  }
+
+  while (media.firstChild) {
+    media.removeChild(media.firstChild)
+  }
+  media.src = replacement
+}
+
+function patchExistingBitrixAudio() {
+  for (const media of Array.from(document.querySelectorAll("audio"))) {
+    collapseBitrixAudio(media)
+  }
+
+  for (const source of Array.from(document.querySelectorAll("audio source"))) {
+    const current = source.getAttribute("src")
     if (!current) {
       continue
     }
     const next = resolveAudioUrl(current)
     if (next !== current) {
-      node.setAttribute("src", next)
+      source.setAttribute("src", next)
     }
   }
 }
@@ -121,6 +177,32 @@ Element.prototype.setAttribute = function (
     value = resolveAudioUrl(value)
   }
   return nativeSetAttribute.call(this, name, value, ...rest)
+}
+
+const nativePlay = HTMLMediaElement.prototype.play
+HTMLMediaElement.prototype.play = function (
+  this: HTMLMediaElement,
+  ...args: Parameters<typeof nativePlay>
+) {
+  collapseBitrixAudio(this)
+
+  const slotId = slotFromMedia(this)
+  const replacement = slotId ? replacementForSlot(slotId) : null
+  if (slotId && replacement) {
+    if (this.currentSrc !== replacement && this.src !== replacement) {
+      this.src = replacement
+    }
+
+    if (
+      isIncomingMessageSlot(slotId) &&
+      INCOMING_MESSAGE_SLOT_IDS.some((id) => replacementForSlot(id)) &&
+      !shouldPlayIncomingSound()
+    ) {
+      return Promise.resolve()
+    }
+  }
+
+  return nativePlay.apply(this, args)
 }
 
 const nativeFetch = window.fetch.bind(window)
