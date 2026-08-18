@@ -42,6 +42,13 @@ export default {
   content_scripts: [
     {
       all_frames: true,
+      js: ["src/content-script/page-hook.ts"],
+      matches: bitrixMatches,
+      run_at: "document_start",
+      world: "MAIN",
+    },
+    {
+      all_frames: true,
       js: ["src/content-script/index.ts"],
       matches: bitrixMatches,
       run_at: "document_start",
