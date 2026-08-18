@@ -334,6 +334,7 @@ declare global {
   const useShare: typeof import('@vueuse/core').useShare
   const useSlots: typeof import('vue').useSlots
   const useSorted: typeof import('@vueuse/core').useSorted
+  const useSoundSettings: typeof import('../composables/useSoundSettings').useSoundSettings
   const useSpeechRecognition: typeof import('@vueuse/core').useSpeechRecognition
   const useSpeechSynthesis: typeof import('@vueuse/core').useSpeechSynthesis
   const useStepper: typeof import('@vueuse/core').useStepper
@@ -402,6 +403,9 @@ declare global {
   // @ts-ignore
   export type { Component, Slot, Slots, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, ShallowRef, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
+  // @ts-ignore
+  export type { SelectValue } from '../composables/useSoundSettings'
+  import('../composables/useSoundSettings')
   // @ts-ignore
   export type { ShortcutConfig, ShortcutsConfig, ShortcutsOptions } from '../../node_modules/@nuxt/ui/dist/runtime/composables/defineShortcuts.d'
   import('../../node_modules/@nuxt/ui/dist/runtime/composables/defineShortcuts.d')
@@ -722,6 +726,7 @@ declare module 'vue' {
     readonly useShare: UnwrapRef<typeof import('@vueuse/core')['useShare']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useSorted: UnwrapRef<typeof import('@vueuse/core')['useSorted']>
+    readonly useSoundSettings: UnwrapRef<typeof import('../composables/useSoundSettings')['useSoundSettings']>
     readonly useSpeechRecognition: UnwrapRef<typeof import('@vueuse/core')['useSpeechRecognition']>
     readonly useSpeechSynthesis: UnwrapRef<typeof import('@vueuse/core')['useSpeechSynthesis']>
     readonly useStepper: UnwrapRef<typeof import('@vueuse/core')['useStepper']>

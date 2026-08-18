@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useSoundSettings } from "src/composables/useSoundSettings"
+import SoundSlotRow from "src/components/SoundSlotRow.vue"
+
 const {
   groupedSlots,
   previewError,

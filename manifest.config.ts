@@ -20,7 +20,7 @@ const bitrixMatches = [
   "*://*.bitrix24.kz/*",
   "*://*.bitrix24.by/*",
   "*://*.bitrix24.tech/*",
-  "*://*/*bitrix/js/im/*",
+  "*://*/*",
 ]
 
 export default {
