@@ -34,6 +34,11 @@
 
 ## Разработка и сборка
 
+### Требования к среде
+- OS: Linux (рекомендуется Ubuntu 22.04+)
+- Node.js: `v24.17.0`
+- npm: `v11.13.0`
+
 ### Установка зависимостей и запуск dev-режима
 ```bash
 npm ci
@@ -48,9 +53,8 @@ npm run dev:chrome
 
 ### Сборка для production
 ```bash
-npm run build:chrome
+npm run build
 ```
-
 
 ## Использование
 
