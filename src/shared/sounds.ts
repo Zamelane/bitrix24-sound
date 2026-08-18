@@ -178,11 +178,48 @@ export function customStorageKey(slotId: SoundSlotId): string {
 }
 
 export function slotIdForUrl(url: string): SoundSlotId | null {
-  const normalized = url.split("?")[0]
-  const slot = SOUND_SLOTS.find(
-    (item) => normalized.endsWith(item.path) || normalized.includes(item.path),
-  )
-  return slot?.id ?? null
+  if (!url.includes("/im/audio/")) {
+    return null
+  }
+
+  const [rawPath, queryPart = ""] = url.split("?")
+  let pathPart = rawPath
+  if (rawPath.includes("://")) {
+    try {
+      pathPart = new URL(rawPath).pathname
+    } catch {
+      return null
+    }
+  }
+
+  for (const item of SOUND_SLOTS) {
+    const audioName =
+      item.path
+        .split("/")
+        .pop()
+        ?.replace(/\.mp3$/i, "") ?? ""
+    const matchesFile =
+      pathPart.endsWith(`${audioName}.mp3`) ||
+      pathPart.endsWith(`${audioName}.ogg`) ||
+      pathPart.endsWith(`${audioName}.wav`) ||
+      pathPart.endsWith(item.path)
+
+    if (!matchesFile) {
+      continue
+    }
+
+    if (
+      item.id === "video-ringtone-modern" &&
+      queryPart &&
+      !queryPart.startsWith("v2")
+    ) {
+      continue
+    }
+
+    return item.id
+  }
+
+  return null
 }
 
 export function presetPublicPath(presetId: PresetId): string {

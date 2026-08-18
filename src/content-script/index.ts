@@ -9,41 +9,8 @@ import {
   type ReplacementMap,
 } from "src/shared/storage"
 
-async function toDataUrl(url: string): Promise<string> {
-  const response = await fetch(url)
-  const blob = await response.blob()
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = () => resolve(String(reader.result))
-    reader.onerror = () => reject(reader.error)
-    reader.readAsDataURL(blob)
-  })
-}
-
-async function toPageMap(): Promise<ReplacementMap> {
-  const map = await buildReplacementMap()
-  const pageMap = {} as ReplacementMap
-
-  for (const [slotId, value] of Object.entries(map) as [
-    SoundSlotId,
-    string | null,
-  ][]) {
-    if (!value) {
-      pageMap[slotId] = null
-      continue
-    }
-    if (value.startsWith("data:")) {
-      pageMap[slotId] = value
-      continue
-    }
-    pageMap[slotId] = await toDataUrl(value)
-  }
-
-  return pageMap
-}
-
 async function publishMap() {
-  const map = await toPageMap()
+  const map = await buildReplacementMap()
   window.postMessage({ type: SOUND_MAP_MESSAGE, map }, "*")
 }
 
@@ -91,6 +58,15 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   return true
 })
 
-chrome.storage.onChanged.addListener(() => {
-  void publishMap()
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area !== "local") {
+    return
+  }
+  const keys = Object.keys(changes)
+  const affectsSounds =
+    keys.includes("soundSettings") ||
+    keys.some((key) => key.startsWith("customSound:"))
+  if (affectsSounds) {
+    void publishMap()
+  }
 })
