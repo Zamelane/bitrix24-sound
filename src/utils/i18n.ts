@@ -1,5 +1,6 @@
 import messages from "@intlify/unplugin-vue-i18n/messages"
 import { createI18n } from "vue-i18n"
+import { useBrowserLocalStorage } from "src/composables/useBrowserStorage"
 
 export const i18n = createI18n({
   globalInjection: true,
@@ -8,8 +9,6 @@ export const i18n = createI18n({
   fallbackLocale: "ru",
   messages,
 })
-
-// restore locale from local storage
 
 const { data } = useBrowserLocalStorage<string>("user-locale", "ru")
 

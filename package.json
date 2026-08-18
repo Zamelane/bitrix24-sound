@@ -60,6 +60,7 @@
     "url": "https://github.com/Zamelane/bitrix24-sound"
   },
   "scripts": {
+    "postinstall": "node scripts/patch-nuxt-ui.mjs",
     "build": "npm run build:chrome && npm run build:firefox",
     "build:chrome": "cross-env NODE_ENV=production vite build -c vite.chrome.config.ts",
     "build:firefox": "cross-env NODE_ENV=production vite build -c vite.firefox.config.ts",

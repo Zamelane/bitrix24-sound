@@ -1,26 +1,72 @@
-# Bitrix24 Sound
+# Bitrix24 Sound - Custom Notification Sounds
 
-Расширение для замены звуков уведомлений Bitrix24.
+[![License](https://img.shields.io/badge/license-Apache--2.0-green.svg?style=flat)](LICENSE)
+[![Build](https://img.shields.io/badge/build-vite%20%2B%20VUE3-646CFF.svg?style=flat&logo=vite)]()
 
-Настраиваются файлы:
+Браузерное расширение (Manifest V3) для замены стандартных звуков уведомлений в веб-версии Битрикс24 на кастомные аудиофайлы или готовые пресеты.
 
-- `/bitrix/js/im/audio/reminder.mp3`
-- `/bitrix/js/im/audio/new-message-1.mp3`
-- `/bitrix/js/im/audio/new-message-2.mp3`
-- `/bitrix/js/im/audio/send.mp3`
-- `/bitrix/js/im/audio/video-dialtone.mp3`
-- `/bitrix/js/im/audio/video-ringtone.mp3`
-- `/bitrix/js/im/audio/video-ringtone-modern.mp3`
-- `/bitrix/js/im/audio/video-start.mp3`
-- `/bitrix/js/im/audio/video-stop.mp3`
-- `/bitrix/js/im/audio/video-error.mp3`
+## Возможности
 
-## Команды
+- Замена звуков сообщений и звонков.
+- Загрузка собственных аудиофайлов (сохраняются локально в `chrome.storage`).
+- Набор готовых звуковых пресетов.
+- Предварительное прослушивание треков.
+- Полностью локальная работа без внешних серверов.
 
+## Поддерживаемые звуковые слоты
+
+### Сообщения (`/bitrix/js/im/audio/`)
+- `reminder.mp3`
+- `new-message-1.mp3`
+- `new-message-2.mp3`
+- `send.mp3`
+
+### Звонки (`/bitrix/js/im/audio/`)
+- `video-dialtone.mp3`
+- `video-ringtone.mp3`
+- `video-ringtone-modern.mp3`
+- `video-start.mp3`
+- `video-stop.mp3`
+- `video-error.mp3`
+
+## Скриншоты
+Интерфейс расширения доступен в папке [`screenshots/`](./screenshots/).
+
+## Разработка и сборка
+
+### Установка зависимостей и запуск dev-режима
 ```bash
-npm install
+npm ci
 npm run dev:chrome
+```
+
+### Установка в браузер
+1. Откройте страницу `chrome://extensions/`.
+2. Включите **Режим разработчика** (Developer mode).
+3. Нажмите **Загрузить распакованное расширение** (Load unpacked).
+4. Выберите папку `dist/chrome`.
+
+### Сборка для production
+```bash
 npm run build:chrome
 ```
 
-В Chrome: `chrome://extensions` → Developer mode → Load unpacked → `dist/chrome`.
+
+## Использование
+
+1. Откройте всплывающее окно (popup) или настройки расширения.
+2. Для любого звукового слота выберите готовый пресет или загрузите свой аудиофайл.
+3. Нажмите кнопку `Preview` для проверки звука.
+
+*Примечание: загруженные файлы сохраняются локально в браузере, максимальный размер файла — 2 МБ.*
+
+## Архитектура и технические детали
+
+Расширение перехватывает воспроизведение аудио на страницах Битрикс24 и подменяет стандартные файлы на выбранные пресеты.
+
+### Основные компоненты:
+* `src/shared/sounds.ts` — конфигурация слотов и маппинг звуков.
+* `src/content-script/page-hook.ts` — логика перехвата аудиопотока.
+* `src/content-script/index.ts` + `src/shared/storage.ts` — управление и синхронизация настроек.
+
+Дополнительная информация по архитектуре и правилам контрибьютинга находится в файле [`docs/DEVELOPMENT.md`](./docs/DEVELOPMENT.md).

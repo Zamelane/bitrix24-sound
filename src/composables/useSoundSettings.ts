@@ -18,6 +18,7 @@ import {
   saveCustomSound,
   type CustomSoundRecord,
 } from "src/shared/storage"
+import { useBrowserLocalStorage } from "src/composables/useBrowserStorage"
 
 const SELECT_ORIGINAL = "original"
 const SELECT_CUSTOM = "custom"

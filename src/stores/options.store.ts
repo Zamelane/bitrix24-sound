@@ -1,3 +1,9 @@
+import { useTheme } from "src/composables/useTheme"
+import {
+  useBrowserLocalStorage,
+  useBrowserSyncStorage,
+} from "src/composables/useBrowserStorage"
+
 export const useOptionsStore = defineStore("options", () => {
   const { isDark, toggleDark } = useTheme()
 

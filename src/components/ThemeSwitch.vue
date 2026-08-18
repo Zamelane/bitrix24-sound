@@ -1,6 +1,8 @@
 <script lang="ts" setup>
+import { useTheme, applyTheme } from "src/composables/useTheme"
+
 const { isDark, toggleDark } = useTheme()
-applyTheme(isDark ? "dark" : "light")
+applyTheme(isDark.value ? "dark" : "light")
 </script>
 
 <template>

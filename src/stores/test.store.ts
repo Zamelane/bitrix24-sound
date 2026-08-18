@@ -1,3 +1,5 @@
+import { useBrowserLocalStorage } from "src/composables/useBrowserStorage"
+
 export const useTestStore = defineStore("app", () => {
   const { data: count } = useBrowserLocalStorage("count", 0)
   const { data: name } = useBrowserLocalStorage("name", "John Doe")

@@ -26,6 +26,7 @@ export default defineConfig({
   base: IS_DEV ? `/` : "",
 
   build: {
+    modulePreload: { polyfill: false },
     watch: IS_DEV ? {} : undefined,
     sourcemap: IS_DEV ? "inline" : false,
     rollupOptions: {
