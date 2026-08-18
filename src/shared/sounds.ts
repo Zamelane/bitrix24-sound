@@ -83,6 +83,7 @@ export type SoundSourceType = "original" | "preset" | "custom"
 export interface SlotSetting {
   source: SoundSourceType
   presetId: PresetId
+  customName: string
 }
 
 export type SoundSettingsMap = Record<SoundSlotId, SlotSetting>
@@ -90,6 +91,7 @@ export type SoundSettingsMap = Record<SoundSlotId, SlotSetting>
 export const DEFAULT_SLOT_SETTING: SlotSetting = {
   source: "original",
   presetId: "soft",
+  customName: "",
 }
 
 export const STORAGE_KEYS = {

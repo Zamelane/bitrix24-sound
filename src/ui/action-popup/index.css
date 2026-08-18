@@ -1,1 +1,7 @@
 @import "../../assets/base.css";
+
+html,
+body,
+#app {
+  width: 420px;
+}

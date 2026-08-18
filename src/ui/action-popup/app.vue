@@ -4,12 +4,10 @@
   <UApp>
     <AppHeader />
 
-    <div class="p-4 prose dark:prose-invert">
+    <div class="p-3">
       <RouterView />
     </div>
 
     <AppFooter />
   </UApp>
 </template>
-
-<style scoped></style>

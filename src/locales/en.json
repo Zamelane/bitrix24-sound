@@ -18,6 +18,11 @@
     "title": "Sounds"
   },
   "sounds": {
+    "actions": {
+      "preview": "Preview",
+      "remove": "Remove",
+      "upload": "Upload custom"
+    },
     "groups": {
       "calls": "Calls",
       "messages": "Messages"
@@ -25,6 +30,7 @@
     "presets": {
       "bell": "Bell",
       "chime": "Chime",
+      "custom": "Custom file",
       "digital": "Digital",
       "original": "Original Bitrix",
       "pop": "Pop",
@@ -41,6 +47,11 @@
       "video-ringtone-modern": "Modern ringtone",
       "video-start": "Call start",
       "video-stop": "Call end"
+    },
+    "hints": {
+      "originalPreview": "The original Bitrix sound can only be heard on the portal.",
+      "size": "File is larger than 2 MB.",
+      "type": "Please choose an audio file."
     }
   },
   "updated": "Updated",

@@ -18,6 +18,11 @@
     "title": "Звуки"
   },
   "sounds": {
+    "actions": {
+      "preview": "Прослушать",
+      "remove": "Удалить",
+      "upload": "Загрузить свой"
+    },
     "groups": {
       "calls": "Звонки",
       "messages": "Сообщения"
@@ -25,6 +30,7 @@
     "presets": {
       "bell": "Колокольчик",
       "chime": "Перезвон",
+      "custom": "Свой файл",
       "digital": "Цифровой",
       "original": "Оригинал Bitrix",
       "pop": "Щелчок",
@@ -41,6 +47,11 @@
       "video-ringtone-modern": "Современный рингтон",
       "video-start": "Начало звонка",
       "video-stop": "Конец звонка"
+    },
+    "hints": {
+      "originalPreview": "Оригинал Bitrix можно услышать только на портале.",
+      "size": "Файл больше 2 МБ.",
+      "type": "Нужен аудиофайл."
     }
   },
   "updated": "Обновлено",

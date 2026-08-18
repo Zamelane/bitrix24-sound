@@ -16,16 +16,6 @@
       </div>
     </RouterLink>
     <div class="flex gap-2 justify-center">
-      <UButton
-        to="/common/about"
-        icon="ph:question"
-        variant="ghost"
-      ></UButton>
-      <UButton
-        to="/options-page"
-        icon="ph:gear"
-        variant="ghost"
-      ></UButton>
       <ThemeSwitch />
     </div>
   </div>
