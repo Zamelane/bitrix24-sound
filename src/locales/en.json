@@ -3,13 +3,13 @@
     "name": "Bitrix24 Sound"
   },
   "menu": {
-    "about": "About",
-    "contact": "Contact",
+    "about": "About extension",
+    "contact": "Contacts",
     "home": "Home"
   },
   "notifications": {
-    "error": "Error occurred.",
-    "success": "Success!",
+    "error": "An error occurred.",
+    "success": "Done.",
     "warning": "Warning!"
   },
   "settings": {
@@ -50,7 +50,7 @@
       "msg-radio": "Radio",
       "msg-sms": "SMS",
       "msg-sms-in": "Incoming SMS",
-      "msg-soft": "Soft signal",
+      "msg-soft": "Unobtrusive",
       "msg-space": "Space",
       "msg-welcome": "Welcome",
       "original": "Original Bitrix"
@@ -69,11 +69,11 @@
     },
     "hints": {
       "originalPreview": "Open a Bitrix24 tab to preview the original sound.",
-      "custom": "Custom file: use the upload button next to the name. No code needed, max 2 MB.",
+      "custom": "Custom file: upload button to the right of the name (up to 2 MB).",
       "size": "File is larger than 2 MB.",
       "type": "Please choose an audio file."
     }
   },
   "updated": "Updated",
-  "welcomeMessage": "Bitrix24 notification sounds"
+  "welcomeMessage": "Bitrix24 sound settings"
 }

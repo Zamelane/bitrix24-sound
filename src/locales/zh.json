@@ -1,19 +1,79 @@
 {
+  "app": {
+    "name": "Bitrix24 Sound"
+  },
   "menu": {
-    "about": "关于",
-    "contact": "联系",
+    "about": "关于扩展",
+    "contact": "联系方式",
     "home": "首页"
   },
   "notifications": {
     "error": "发生错误。",
-    "success": "成功！",
+    "success": "完成。",
     "warning": "警告！"
   },
   "settings": {
     "cancelButton": "取消",
     "saveButton": "保存",
-    "title": "设置"
+    "title": "声音"
+  },
+  "sounds": {
+    "actions": {
+      "preview": "试听",
+      "remove": "删除",
+      "upload": "上传自定义"
+    },
+    "groups": {
+      "calls": "通话",
+      "messages": "消息"
+    },
+    "presets": {
+      "call-huawei": "Huawei Dream",
+      "call-iphone": "iPhone",
+      "call-lg": "LG Ding-dong",
+      "call-nokia": "Nokia",
+      "call-ring": "铃声",
+      "call-tada": "Tada",
+      "call-xiaomi": "Xiaomi Jeho",
+      "custom": "自定义文件…",
+      "err-buzz": "错误：提示音",
+      "err-dragon": "错误：dragon",
+      "err-fail": "错误：fail",
+      "err-windows": "错误：Windows",
+      "err-wrong": "错误：错误",
+      "msg-appear": "出现",
+      "msg-calm": "平静旋律",
+      "msg-iridescent": "彩虹",
+      "msg-level-up": "升级",
+      "msg-melody": "悦耳旋律",
+      "msg-pager": "寻呼机",
+      "msg-radio": "对讲机",
+      "msg-sms": "SMS",
+      "msg-sms-in": "收到 SMS",
+      "msg-soft": "轻柔",
+      "msg-space": "太空",
+      "msg-welcome": "欢迎",
+      "original": "Bitrix 原版"
+    },
+    "slots": {
+      "new-message-1": "新消息 1",
+      "new-message-2": "新消息 2",
+      "reminder": "提醒",
+      "send": "发送",
+      "video-dialtone": "拨号音",
+      "video-error": "通话错误",
+      "video-ringtone": "铃声",
+      "video-ringtone-modern": "现代铃声",
+      "video-start": "通话开始",
+      "video-stop": "通话结束"
+    },
+    "hints": {
+      "originalPreview": "打开 Bitrix24 标签页以试听原版声音。",
+      "custom": "自定义文件：名称右侧的上传按钮（最大 2 MB）。",
+      "size": "文件超过 2 MB。",
+      "type": "请选择音频文件。"
+    }
   },
   "updated": "已更新",
-  "welcomeMessage": "欢迎使用我们的Chrome扩展程序！"
+  "welcomeMessage": "Bitrix24 声音设置"
 }
