@@ -13,6 +13,7 @@ import {
   mergeSoundSettings,
   presetUrl,
   removeCustomSound,
+  resolveOriginalSoundUrl,
   saveCustomSound,
   type CustomSoundRecord,
 } from "src/shared/storage"
@@ -20,7 +21,12 @@ import {
 const SELECT_ORIGINAL = "original"
 const SELECT_CUSTOM = "custom"
 
-export type SelectValue = typeof SELECT_ORIGINAL | PresetId | typeof SELECT_CUSTOM
+export type SelectValue =
+  | typeof SELECT_ORIGINAL
+  | PresetId
+  | typeof SELECT_CUSTOM
+
+let previewAudio: HTMLAudioElement | null = null
 
 export function useSoundSettings() {
   const { data: settings } = useBrowserLocalStorage<SoundSettingsMap>(
@@ -61,7 +67,9 @@ export function useSoundSettings() {
     settings.value[slotId] = next
   }
 
-  async function resolvePlayableUrl(slotId: SoundSlotId): Promise<string | null> {
+  async function resolvePlayableUrl(
+    slotId: SoundSlotId,
+  ): Promise<string | null> {
     const setting = settings.value[slotId]
     if (setting.source === "preset") {
       return presetUrl(setting.presetId)
@@ -70,7 +78,7 @@ export function useSoundSettings() {
       const custom = await loadCustomSound(slotId)
       return custom?.dataUrl ?? null
     }
-    return null
+    return resolveOriginalSoundUrl(slotId)
   }
 
   async function preview(slotId: SoundSlotId) {
@@ -80,8 +88,13 @@ export function useSoundSettings() {
       previewError.value = "original"
       return
     }
-    const audio = new Audio(url)
-    await audio.play()
+    try {
+      previewAudio?.pause()
+      previewAudio = new Audio(url)
+      await previewAudio.play()
+    } catch {
+      previewError.value = "original"
+    }
   }
 
   async function uploadCustom(slotId: SoundSlotId, file: File) {

@@ -57,7 +57,7 @@ export default {
   options_page: "src/ui/options-page/index.html",
   offline_enabled: true,
   host_permissions: bitrixMatches,
-  permissions: ["storage", "unlimitedStorage"],
+  permissions: ["storage", "unlimitedStorage", "tabs"],
   web_accessible_resources: [
     {
       resources: ["sounds/presets/*.mp3"],

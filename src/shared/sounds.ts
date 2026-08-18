@@ -97,6 +97,7 @@ export const DEFAULT_SLOT_SETTING: SlotSetting = {
 export const STORAGE_KEYS = {
   settings: "soundSettings",
   customPrefix: "customSound:",
+  portalOrigin: "bitrixOrigin",
 } as const
 
 export const SOUND_MAP_MESSAGE = "b24-sound:map"
@@ -115,12 +116,26 @@ export function customStorageKey(slotId: SoundSlotId): string {
 export function slotIdForUrl(url: string): SoundSlotId | null {
   const normalized = url.split("?")[0]
   const slot = SOUND_SLOTS.find(
-    (item) =>
-      normalized.endsWith(item.path) || normalized.includes(item.path),
+    (item) => normalized.endsWith(item.path) || normalized.includes(item.path),
   )
   return slot?.id ?? null
 }
 
 export function presetPublicPath(presetId: PresetId): string {
   return `sounds/presets/${presetId}.mp3`
+}
+
+export function slotFilePath(slotId: SoundSlotId): string | null {
+  const slot = SOUND_SLOTS.find((item) => item.id === slotId)
+  if (!slot) {
+    return null
+  }
+  if (slot.id === "video-ringtone-modern") {
+    return `${slot.path}?v2`
+  }
+  return slot.path
+}
+
+export function isBitrixPortalHost(hostname: string): boolean {
+  return /(^|\.)bitrix24\.[a-z.]+$/i.test(hostname)
 }

@@ -1,6 +1,11 @@
-import { SOUND_MAP_MESSAGE, type SoundSlotId } from "src/shared/sounds"
+import {
+  isBitrixPortalHost,
+  SOUND_MAP_MESSAGE,
+  type SoundSlotId,
+} from "src/shared/sounds"
 import {
   buildReplacementMap,
+  rememberPortalOrigin,
   type ReplacementMap,
 } from "src/shared/storage"
 
@@ -52,6 +57,39 @@ window.addEventListener("message", (event: MessageEvent) => {
 })
 
 void publishMap()
+
+if (window.top === window && isBitrixPortalHost(location.hostname)) {
+  void rememberPortalOrigin(location.origin)
+}
+
+chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+  if (message?.type !== `${SOUND_MAP_MESSAGE}:preview`) {
+    return
+  }
+
+  const path = String(message.path ?? "")
+  const url = new URL(path, location.origin).href
+  fetch(url, { credentials: "include" })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(String(response.status))
+      }
+      return response.blob()
+    })
+    .then(
+      (blob) =>
+        new Promise<string>((resolve, reject) => {
+          const reader = new FileReader()
+          reader.onload = () => resolve(String(reader.result))
+          reader.onerror = () => reject(reader.error)
+          reader.readAsDataURL(blob)
+        }),
+    )
+    .then((dataUrl) => sendResponse({ dataUrl }))
+    .catch(() => sendResponse({ dataUrl: null }))
+
+  return true
+})
 
 chrome.storage.onChanged.addListener(() => {
   void publishMap()

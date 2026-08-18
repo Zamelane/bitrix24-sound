@@ -1,8 +1,11 @@
 import {
   customStorageKey,
   defaultSoundSettings,
+  isBitrixPortalHost,
   PRESET_IDS,
   presetPublicPath,
+  slotFilePath,
+  SOUND_MAP_MESSAGE,
   SOUND_SLOT_IDS,
   SOUND_SLOTS,
   STORAGE_KEYS,
@@ -76,6 +79,82 @@ export async function removeCustomSound(slotId: SoundSlotId): Promise<void> {
 
 export function presetUrl(presetId: PresetId): string {
   return chrome.runtime.getURL(presetPublicPath(presetId))
+}
+
+export async function rememberPortalOrigin(origin: string): Promise<void> {
+  await chrome.storage.local.set({ [STORAGE_KEYS.portalOrigin]: origin })
+}
+
+export async function resolvePortalOrigin(): Promise<string | null> {
+  const tabs = await chrome.tabs.query({})
+  for (const tab of tabs) {
+    if (!tab.url) {
+      continue
+    }
+    try {
+      const url = new URL(tab.url)
+      if (url.protocol !== "http:" && url.protocol !== "https:") {
+        continue
+      }
+      if (isBitrixPortalHost(url.hostname)) {
+        await rememberPortalOrigin(url.origin)
+        return url.origin
+      }
+    } catch {
+      continue
+    }
+  }
+
+  const stored = await chrome.storage.local.get(STORAGE_KEYS.portalOrigin)
+  const origin = stored[STORAGE_KEYS.portalOrigin]
+  return typeof origin === "string" && origin ? origin : null
+}
+
+export async function resolveOriginalSoundUrl(
+  slotId: SoundSlotId,
+): Promise<string | null> {
+  const path = slotFilePath(slotId)
+  if (!path) {
+    return null
+  }
+
+  const tabs = await chrome.tabs.query({})
+  const bitrixTab = tabs.find((tab) => {
+    if (!tab.id || !tab.url) {
+      return false
+    }
+    try {
+      return isBitrixPortalHost(new URL(tab.url).hostname)
+    } catch {
+      return false
+    }
+  })
+
+  if (bitrixTab?.id) {
+    try {
+      const response = (await chrome.tabs.sendMessage(
+        bitrixTab.id,
+        {
+          type: `${SOUND_MAP_MESSAGE}:preview`,
+          path,
+        },
+        { frameId: 0 },
+      )) as { dataUrl?: string | null } | undefined
+      if (response?.dataUrl) {
+        return response.dataUrl
+      }
+    } catch {
+      // Tab may not have the content script yet.
+    }
+  }
+
+  const origin = bitrixTab?.url
+    ? new URL(bitrixTab.url).origin
+    : await resolvePortalOrigin()
+  if (!origin) {
+    return null
+  }
+  return new URL(path, origin).href
 }
 
 export async function buildReplacementMap(): Promise<ReplacementMap> {

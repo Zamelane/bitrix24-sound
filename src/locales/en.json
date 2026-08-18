@@ -49,7 +49,7 @@
       "video-stop": "Call end"
     },
     "hints": {
-      "originalPreview": "The original Bitrix sound can only be heard on the portal.",
+      "originalPreview": "Open a Bitrix24 tab to preview the original sound.",
       "size": "File is larger than 2 MB.",
       "type": "Please choose an audio file."
     }
