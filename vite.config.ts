@@ -112,7 +112,7 @@ export default defineConfig({
       },
       ui: {
         colors: {
-          primary: "green",
+          primary: "sky",
           neutral: "slate",
         },
       },

@@ -3,25 +3,35 @@ import type { ManifestV3Export } from "@crxjs/vite-plugin"
 import packageJson from "./package.json" with { type: "json" }
 
 const { version, name, description, displayName } = packageJson
-// Convert from Semver (example: 0.1.0-beta6)
 const [major, minor, patch, label = "0"] = version
-  // can only contain digits, dots, or dash
   .replace(/[^\d.-]+/g, "")
-  // split into version parts
   .split(/[.-]/)
+
+const bitrixMatches = [
+  "*://*.bitrix24.ru/*",
+  "*://*.bitrix24.com/*",
+  "*://*.bitrix24.eu/*",
+  "*://*.bitrix24.de/*",
+  "*://*.bitrix24.ua/*",
+  "*://*.bitrix24.fr/*",
+  "*://*.bitrix24.es/*",
+  "*://*.bitrix24.it/*",
+  "*://*.bitrix24.pl/*",
+  "*://*.bitrix24.kz/*",
+  "*://*.bitrix24.by/*",
+  "*://*.bitrix24.tech/*",
+  "*://*/*bitrix/js/im/*",
+]
 
 export default {
   author: {
-    email: "mubaidr@gmail.com",
+    email: "zamelane@vk.com",
   },
   name: env.mode === "staging" ? `[INTERNAL] ${name}` : displayName || name,
   description,
-  // up to four numbers separated by dots
   version: `${major}.${minor}.${patch}.${label}`,
-  // semver is OK in "version_name"
   version_name: version,
   manifest_version: 3,
-  // key: '',
   action: {
     default_popup: "src/ui/action-popup/index.html",
   },
@@ -31,28 +41,20 @@ export default {
   },
   content_scripts: [
     {
-      all_frames: false,
+      all_frames: true,
       js: ["src/content-script/index.ts"],
-      matches: ["*://*/*"],
-      run_at: "document_end",
+      matches: bitrixMatches,
+      run_at: "document_start",
     },
   ],
-  side_panel: {
-    default_path: "src/ui/side-panel/index.html",
-  },
-  devtools_page: "src/devtools/index.html",
   options_page: "src/ui/options-page/index.html",
   offline_enabled: true,
-  host_permissions: ["<all_urls>"],
-  permissions: ["storage", "tabs", "background", "sidePanel"],
+  host_permissions: bitrixMatches,
+  permissions: ["storage", "unlimitedStorage"],
   web_accessible_resources: [
     {
-      resources: [
-        "src/ui/setup/index.html",
-        "src/ui/content-script-iframe/index.html",
-        "src/ui/devtools-panel/index.html",
-      ],
-      matches: ["<all_urls>"],
+      resources: ["sounds/presets/*.mp3"],
+      matches: bitrixMatches,
       use_dynamic_url: false,
     },
   ],

@@ -6,7 +6,7 @@ export default defineManifest((env) => ({
   ...ManifestConfig,
   browser_specific_settings: {
     gecko: {
-      id: env["FIREFOX_ADDON_ID"],
+      id: env["FIREFOX_ADDON_ID"] || "bitrix24-sound@zamelane",
     },
   },
   background: {

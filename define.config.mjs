@@ -6,9 +6,15 @@ import packageJson from "./package.json" with { type: "json" }
 const changelog = fs.readFileSync("./CHANGELOG.md", "utf-8")
 
 // Get the current git commit hash.
-const gitCommit = spawnSync("git", ["rev-parse", "--short", "HEAD"])
-  .stdout.toString()
-  .trim()
+function getGitCommit() {
+  const result = spawnSync("git", ["rev-parse", "--short", "HEAD"], {
+    encoding: "utf-8",
+  })
+  const hash = result.stdout?.toString().trim()
+  return result.status === 0 && hash ? hash : "dev"
+}
+
+const gitCommit = getGitCommit()
 
 // Don't forget to add your added variables to vite-env.d.ts also!
 

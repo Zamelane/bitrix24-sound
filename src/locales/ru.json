@@ -1,0 +1,48 @@
+{
+  "app": {
+    "name": "Bitrix24 Sound"
+  },
+  "menu": {
+    "about": "О расширении",
+    "contact": "Контакты",
+    "home": "Главная"
+  },
+  "notifications": {
+    "error": "Произошла ошибка.",
+    "success": "Готово.",
+    "warning": "Внимание!"
+  },
+  "settings": {
+    "cancelButton": "Отмена",
+    "saveButton": "Сохранить",
+    "title": "Звуки"
+  },
+  "sounds": {
+    "groups": {
+      "calls": "Звонки",
+      "messages": "Сообщения"
+    },
+    "presets": {
+      "bell": "Колокольчик",
+      "chime": "Перезвон",
+      "digital": "Цифровой",
+      "original": "Оригинал Bitrix",
+      "pop": "Щелчок",
+      "soft": "Мягкий"
+    },
+    "slots": {
+      "new-message-1": "Новое сообщение 1",
+      "new-message-2": "Новое сообщение 2",
+      "reminder": "Напоминание",
+      "send": "Отправка",
+      "video-dialtone": "Гудки",
+      "video-error": "Ошибка звонка",
+      "video-ringtone": "Рингтон",
+      "video-ringtone-modern": "Современный рингтон",
+      "video-start": "Начало звонка",
+      "video-stop": "Конец звонка"
+    }
+  },
+  "updated": "Обновлено",
+  "welcomeMessage": "Настройка звуков Bitrix24"
+}

@@ -1,4 +1,7 @@
 {
+  "app": {
+    "name": "Bitrix24 Sound"
+  },
   "menu": {
     "about": "About",
     "contact": "Contact",
@@ -12,8 +15,34 @@
   "settings": {
     "cancelButton": "Cancel",
     "saveButton": "Save",
-    "title": "Settings"
+    "title": "Sounds"
+  },
+  "sounds": {
+    "groups": {
+      "calls": "Calls",
+      "messages": "Messages"
+    },
+    "presets": {
+      "bell": "Bell",
+      "chime": "Chime",
+      "digital": "Digital",
+      "original": "Original Bitrix",
+      "pop": "Pop",
+      "soft": "Soft"
+    },
+    "slots": {
+      "new-message-1": "New message 1",
+      "new-message-2": "New message 2",
+      "reminder": "Reminder",
+      "send": "Send",
+      "video-dialtone": "Dial tone",
+      "video-error": "Call error",
+      "video-ringtone": "Ringtone",
+      "video-ringtone-modern": "Modern ringtone",
+      "video-start": "Call start",
+      "video-stop": "Call end"
+    }
   },
   "updated": "Updated",
-  "welcomeMessage": "Welcome to our Chrome extension!"
+  "welcomeMessage": "Bitrix24 notification sounds"
 }
