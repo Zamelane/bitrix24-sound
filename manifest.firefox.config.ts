@@ -6,7 +6,13 @@ export default defineManifest((env) => ({
   ...ManifestConfig,
   browser_specific_settings: {
     gecko: {
-      id: env["FIREFOX_ADDON_ID"] || "bitrix24-sound@zamelane",
+      id:
+        (env as unknown as Record<string, string | undefined>)[
+          "FIREFOX_ADDON_ID"
+        ] || "bitrix24-sound@zamelane",
+      data_collection_permissions: {
+        required: ["none"],
+      },
     },
   },
   background: {
@@ -17,7 +23,7 @@ export default defineManifest((env) => ({
   permissions: [
     // @ts-expect-error background permission is not supported in Firefox
     ...ManifestConfig.permissions.filter(
-      (permission) => permission !== "background",
+      (permission: string) => permission !== "background",
     ),
   ],
 }))

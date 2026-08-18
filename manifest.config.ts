@@ -24,9 +24,7 @@ const bitrixMatches = [
 ]
 
 export default {
-  author: {
-    email: "zamelane@vk.com",
-  },
+  author: "Zamelane <zamelane@vk.com>",
   name: env.mode === "staging" ? `[INTERNAL] ${name}` : displayName || name,
   description,
   version: `${major}.${minor}.${patch}.${label}`,
@@ -65,10 +63,17 @@ export default {
       use_dynamic_url: false,
     },
   ],
-  icons: {
-    16: "src/assets/logo.png",
-    24: "src/assets/logo.png",
-    32: "src/assets/logo.png",
-    128: "src/assets/logo.png",
+  browser_specific_settings: {
+    gecko: {
+      data_collection_permissions: {
+        required: ["none"],
+      },
+    },
   },
-} as ManifestV3Export
+  icons: {
+    16: "src/assets/logo-16.png",
+    24: "src/assets/logo-24.png",
+    32: "src/assets/logo-32.png",
+    128: "src/assets/logo-128.png",
+  },
+} as unknown as ManifestV3Export
