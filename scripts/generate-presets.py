@@ -94,6 +94,60 @@ def decaying_bell(duration: float = 0.55) -> list[float]:
     return samples
 
 
+def pulse() -> list[float]:
+    count = int(SR * 0.4)
+    burst = []
+    for index in range(count):
+        t = index / SR
+        burst.append(
+            (math.sin(2 * math.pi * 440 * t) + math.sin(2 * math.pi * 480 * t)) * 0.22
+        )
+    burst = fade(burst, 0.02, 0.04)
+    gap = [0.0] * int(SR * 0.2)
+    return burst + gap + burst
+
+
+def classic_ring() -> list[float]:
+    tone = fade(sine(425, 0.4, 0.38), 0.01, 0.04)
+    gap = [0.0] * int(SR * 0.2)
+    return tone + gap + tone + [0.0] * int(SR * 0.25)
+
+
+def marimba() -> list[float]:
+    notes = [523.25, 659.25, 783.99, 1046.5]
+    parts = [
+        pad(fade(sine(freq, 0.22, 0.28), 0.005, 0.12), index * 0.12)
+        for index, freq in enumerate(notes)
+    ]
+    return mix(*parts)
+
+
+def urgent() -> list[float]:
+    beep = fade(sine(1400, 0.08, 0.4), 0.003, 0.02)
+    gap = [0.0] * int(SR * 0.07)
+    return (beep + gap) * 4
+
+
+def glass() -> list[float]:
+    def shimmer(freq: float, duration: float) -> list[float]:
+        count = int(SR * duration)
+        samples: list[float] = []
+        for index in range(count):
+            t = index / SR
+            envelope = math.exp(-t * 3)
+            samples.append(
+                (
+                    math.sin(2 * math.pi * freq * t)
+                    + 0.25 * math.sin(2 * math.pi * freq * 2 * t)
+                )
+                * 0.35
+                * envelope
+            )
+        return samples
+
+    return mix(shimmer(1046.5, 0.7), pad(shimmer(1318.5, 0.7), 0.35))
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
 
@@ -109,6 +163,11 @@ def main() -> None:
             pad(fade(sine(659.25, 0.16, 0.32), 0.005, 0.08), 0.1),
             pad(fade(sine(783.99, 0.28, 0.32), 0.005, 0.14), 0.2),
         ),
+        "pulse": pulse(),
+        "classic": classic_ring(),
+        "marimba": marimba(),
+        "urgent": urgent(),
+        "glass": glass(),
     }
 
     for name, samples in presets.items():

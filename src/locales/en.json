@@ -30,11 +30,16 @@
     "presets": {
       "bell": "Bell",
       "chime": "Chime",
-      "custom": "Custom file",
+      "classic": "Classic",
+      "custom": "Custom file…",
       "digital": "Digital",
+      "glass": "Glass",
+      "marimba": "Marimba",
       "original": "Original Bitrix",
       "pop": "Pop",
-      "soft": "Soft"
+      "pulse": "Pulse",
+      "soft": "Soft",
+      "urgent": "Urgent"
     },
     "slots": {
       "new-message-1": "New message 1",
@@ -50,6 +55,7 @@
     },
     "hints": {
       "originalPreview": "Open a Bitrix24 tab to preview the original sound.",
+      "custom": "Custom file: use the upload button next to the name. No code needed, max 2 MB.",
       "size": "File is larger than 2 MB.",
       "type": "Please choose an audio file."
     }

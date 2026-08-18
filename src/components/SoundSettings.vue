@@ -40,6 +40,9 @@ const { t } = useI18n()
       />
     </section>
 
+    <p class="text-xs text-muted">
+      {{ t("sounds.hints.custom") }}
+    </p>
     <p
       v-if="previewError === 'original'"
       class="text-xs text-muted"

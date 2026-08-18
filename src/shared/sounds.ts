@@ -74,7 +74,23 @@ export const SOUND_SLOTS: SoundSlot[] = [
   },
 ]
 
-export const PRESET_IDS = ["soft", "pop", "bell", "digital", "chime"] as const
+export const MESSAGE_PRESET_IDS = [
+  "soft",
+  "pop",
+  "bell",
+  "digital",
+  "chime",
+] as const
+
+export const CALL_PRESET_IDS = [
+  "pulse",
+  "classic",
+  "marimba",
+  "urgent",
+  "glass",
+] as const
+
+export const PRESET_IDS = [...MESSAGE_PRESET_IDS, ...CALL_PRESET_IDS] as const
 
 export type PresetId = (typeof PRESET_IDS)[number]
 
@@ -88,10 +104,23 @@ export interface SlotSetting {
 
 export type SoundSettingsMap = Record<SoundSlotId, SlotSetting>
 
-export const DEFAULT_SLOT_SETTING: SlotSetting = {
-  source: "original",
-  presetId: "soft",
-  customName: "",
+export function presetsForGroup(group: SoundGroup): readonly PresetId[] {
+  return group === "calls" ? CALL_PRESET_IDS : MESSAGE_PRESET_IDS
+}
+
+export function defaultPresetId(group: SoundGroup): PresetId {
+  return group === "calls" ? "pulse" : "soft"
+}
+
+export function isPresetForGroup(
+  group: SoundGroup,
+  value: string,
+): value is PresetId {
+  return (presetsForGroup(group) as readonly string[]).includes(value)
+}
+
+export function slotGroup(slotId: SoundSlotId): SoundGroup {
+  return SOUND_SLOTS.find((slot) => slot.id === slotId)?.group ?? "messages"
 }
 
 export const STORAGE_KEYS = {
@@ -105,7 +134,14 @@ export const MAX_CUSTOM_BYTES = 2 * 1024 * 1024
 
 export function defaultSoundSettings(): SoundSettingsMap {
   return Object.fromEntries(
-    SOUND_SLOTS.map((slot) => [slot.id, { ...DEFAULT_SLOT_SETTING }]),
+    SOUND_SLOTS.map((slot) => [
+      slot.id,
+      {
+        source: "original" as const,
+        presetId: defaultPresetId(slot.group),
+        customName: "",
+      },
+    ]),
   ) as SoundSettingsMap
 }
 

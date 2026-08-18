@@ -2,9 +2,10 @@ import {
   customStorageKey,
   defaultSoundSettings,
   isBitrixPortalHost,
-  PRESET_IDS,
+  isPresetForGroup,
   presetPublicPath,
   slotFilePath,
+  slotGroup,
   SOUND_MAP_MESSAGE,
   SOUND_SLOT_IDS,
   SOUND_SLOTS,
@@ -22,10 +23,6 @@ export interface CustomSoundRecord {
 
 export type ReplacementMap = Record<SoundSlotId, string | null>
 
-function isPresetId(value: string): value is PresetId {
-  return (PRESET_IDS as readonly string[]).includes(value)
-}
-
 export function mergeSoundSettings(
   stored: Partial<SoundSettingsMap> | undefined,
 ): SoundSettingsMap {
@@ -39,9 +36,12 @@ export function mergeSoundSettings(
     if (!incoming) {
       continue
     }
+    const group = slotGroup(slotId)
     defaults[slotId] = {
       source: incoming.source ?? "original",
-      presetId: isPresetId(incoming.presetId) ? incoming.presetId : "soft",
+      presetId: isPresetForGroup(group, incoming.presetId)
+        ? incoming.presetId
+        : defaults[slotId].presetId,
       customName: incoming.customName ?? "",
     }
   }

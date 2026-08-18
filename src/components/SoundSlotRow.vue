@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { SoundSlot } from "src/shared/sounds"
+import { presetsForGroup } from "src/shared/sounds"
 import type { SelectValue } from "src/composables/useSoundSettings"
 
 const props = defineProps<{
@@ -20,11 +21,10 @@ const fileInput = ref<HTMLInputElement | null>(null)
 
 const options = computed(() => [
   { label: t("sounds.presets.original"), value: "original" },
-  { label: t("sounds.presets.soft"), value: "soft" },
-  { label: t("sounds.presets.pop"), value: "pop" },
-  { label: t("sounds.presets.bell"), value: "bell" },
-  { label: t("sounds.presets.digital"), value: "digital" },
-  { label: t("sounds.presets.chime"), value: "chime" },
+  ...presetsForGroup(props.slot.group).map((id) => ({
+    label: t(`sounds.presets.${id}`),
+    value: id,
+  })),
   { label: t("sounds.presets.custom"), value: "custom" },
 ])
 

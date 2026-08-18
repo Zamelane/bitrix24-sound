@@ -1,6 +1,7 @@
 import {
+  isPresetForGroup,
   MAX_CUSTOM_BYTES,
-  PRESET_IDS,
+  slotGroup,
   SOUND_SLOTS,
   STORAGE_KEYS,
   type PresetId,
@@ -47,7 +48,10 @@ export function useSoundSettings() {
     if (setting.source === "custom") {
       return SELECT_CUSTOM
     }
-    if (setting.source === "preset") {
+    if (
+      setting.source === "preset" &&
+      isPresetForGroup(slotGroup(slotId), setting.presetId)
+    ) {
       return setting.presetId
     }
     return SELECT_ORIGINAL
@@ -60,7 +64,7 @@ export function useSoundSettings() {
       next.source = "original"
     } else if (value === SELECT_CUSTOM) {
       next.source = "custom"
-    } else if (PRESET_IDS.includes(value)) {
+    } else if (isPresetForGroup(slotGroup(slotId), value)) {
       next.source = "preset"
       next.presetId = value
     }
