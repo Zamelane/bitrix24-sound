@@ -74,20 +74,47 @@ export const SOUND_SLOTS: SoundSlot[] = [
   },
 ]
 
+export const MESSAGE_ONLY_PRESET_IDS = [
+  "msg-appear",
+  "msg-calm",
+  "msg-iridescent",
+  "msg-level-up",
+  "msg-melody",
+  "msg-pager",
+  "msg-radio",
+  "msg-sms",
+  "msg-sms-in",
+  "msg-soft",
+  "msg-space",
+  "msg-welcome",
+] as const
+
+export const CALL_ONLY_PRESET_IDS = [
+  "call-huawei",
+  "call-iphone",
+  "call-lg",
+  "call-nokia",
+  "call-ring",
+  "call-tada",
+  "call-xiaomi",
+] as const
+
+export const ERROR_PRESET_IDS = [
+  "err-buzz",
+  "err-dragon",
+  "err-fail",
+  "err-windows",
+  "err-wrong",
+] as const
+
 export const MESSAGE_PRESET_IDS = [
-  "soft",
-  "pop",
-  "bell",
-  "digital",
-  "chime",
+  ...MESSAGE_ONLY_PRESET_IDS,
+  ...ERROR_PRESET_IDS,
 ] as const
 
 export const CALL_PRESET_IDS = [
-  "pulse",
-  "classic",
-  "marimba",
-  "urgent",
-  "glass",
+  ...CALL_ONLY_PRESET_IDS,
+  ...ERROR_PRESET_IDS,
 ] as const
 
 export const PRESET_IDS = [...MESSAGE_PRESET_IDS, ...CALL_PRESET_IDS] as const
@@ -109,7 +136,8 @@ export function presetsForGroup(group: SoundGroup): readonly PresetId[] {
 }
 
 export function defaultPresetId(group: SoundGroup): PresetId {
-  return group === "calls" ? "pulse" : "soft"
+  const presets = presetsForGroup(group)
+  return (presets[0] ?? MESSAGE_PRESET_IDS[0]) as PresetId
 }
 
 export function isPresetForGroup(
