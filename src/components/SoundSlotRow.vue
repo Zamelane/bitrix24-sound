@@ -4,7 +4,7 @@ import { presetsForGroup } from "src/shared/sounds"
 import type { SelectValue } from "src/composables/useSoundSettings"
 
 const props = defineProps<{
-  slot: SoundSlot
+  soundSlot: SoundSlot
   modelValue: SelectValue
   customName: string
 }>()
@@ -21,7 +21,7 @@ const fileInput = ref<HTMLInputElement | null>(null)
 
 const options = computed(() => [
   { label: t("sounds.presets.original"), value: "original" },
-  ...presetsForGroup(props.slot.group).map((id) => ({
+  ...presetsForGroup(props.soundSlot.group).map((id) => ({
     label: t(`sounds.presets.${id}`),
     value: id,
   })),
@@ -50,10 +50,10 @@ function onFileChange(event: Event) {
     <div class="flex items-start justify-between gap-3">
       <div class="min-w-0">
         <div class="text-sm font-medium truncate">
-          {{ t(`sounds.slots.${slot.id}`) }}
+          {{ t(`sounds.slots.${soundSlot.id}`) }}
         </div>
         <div class="text-[11px] text-muted truncate font-mono">
-          {{ slot.path }}
+          {{ soundSlot.path }}
         </div>
       </div>
       <div class="flex shrink-0 gap-1">

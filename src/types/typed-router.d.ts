@@ -14,10 +14,15 @@ import type {
   ParamValueZeroOrMore,
   ParamValueZeroOrOne,
 } from 'vue-router'
+import type {
+  _ExtractParamParserType,
+} from 'vue-router/experimental'
 
 declare module 'vue-router' {
   interface TypesConfig {
-    ParamParsers: never
+    _ParamParsers: {}
+    RouteNamedMap: import('vue-router/auto-routes').RouteNamedMap
+    _RouteFileInfoMap: import('vue-router/auto-routes')._RouteFileInfoMap
   }
 }
 
@@ -149,11 +154,15 @@ declare module 'vue-router/auto-routes' {
         | '/action-popup/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'src/ui/action-popup/pages/playground.vue': {
       routes:
         | '/action-popup/playground'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'src/ui/common/pages/404.vue': {
@@ -161,11 +170,15 @@ declare module 'vue-router/auto-routes' {
         | '/common/404'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'src/ui/common/pages/about.vue': {
       routes:
         | '/common/about'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'src/ui/common/pages/change-log.vue': {
@@ -173,11 +186,15 @@ declare module 'vue-router/auto-routes' {
         | '/common/change-log'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'src/ui/common/pages/features.vue': {
       routes:
         | '/common/features'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'src/ui/common/pages/help.vue': {
@@ -185,11 +202,15 @@ declare module 'vue-router/auto-routes' {
         | '/common/help'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'src/ui/common/pages/privacy-policy.vue': {
       routes:
         | '/common/privacy-policy'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'src/ui/common/pages/terms-of-service.vue': {
@@ -197,11 +218,15 @@ declare module 'vue-router/auto-routes' {
         | '/common/terms-of-service'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'src/ui/content-script-iframe/pages/index.vue': {
       routes:
         | '/content-script-iframe/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'src/ui/devtools-panel/pages/index.vue': {
@@ -209,11 +234,15 @@ declare module 'vue-router/auto-routes' {
         | '/devtools-panel/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'src/ui/options-page/pages/index.vue': {
       routes:
         | '/options-page/'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'src/ui/setup/pages/install.vue': {
@@ -221,17 +250,23 @@ declare module 'vue-router/auto-routes' {
         | '/setup/install'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'src/ui/setup/pages/update.vue': {
       routes:
         | '/setup/update'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'src/ui/side-panel/pages/index.vue': {
       routes:
         | '/side-panel/'
       views:
+        | never
+      pathParamNames:
         | never
     }
   }

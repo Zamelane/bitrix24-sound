@@ -30,7 +30,7 @@ const { t } = useI18n()
       <SoundSlotRow
         v-for="slot in slots"
         :key="slot.id"
-        :slot="slot"
+        :sound-slot="slot"
         :model-value="selectValue(slot.id)"
         :custom-name="settings[slot.id].customName"
         @update:model-value="applySelect(slot.id, $event)"
