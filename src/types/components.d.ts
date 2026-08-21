@@ -18,6 +18,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterLinkUp: typeof import('./../components/RouterLinkUp.vue')['default']
     RouterView: typeof import('vue-router')['RouterView']
+    SiteEnableToggle: typeof import('./../components/SiteEnableToggle.vue')['default']
     SoundSettings: typeof import('./../components/SoundSettings.vue')['default']
     SoundSlotRow: typeof import('./../components/SoundSlotRow.vue')['default']
     TailwindEmptyState: typeof import('./../components/state/tailwind-empty-state.vue')['default']
@@ -28,5 +29,6 @@ declare module 'vue' {
     UCard: typeof import('./../../node_modules/@nuxt/ui/dist/runtime/components/Card.vue')['default']
     UInput: typeof import('./../../node_modules/@nuxt/ui/dist/runtime/components/Input.vue')['default']
     USelect: typeof import('./../../node_modules/@nuxt/ui/dist/runtime/components/Select.vue')['default']
+    USwitch: typeof import('./../../node_modules/@nuxt/ui/dist/runtime/components/Switch.vue')['default']
   }
 }

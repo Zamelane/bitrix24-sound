@@ -9,17 +9,8 @@ const [major, minor, patch, label = "0"] = version
 
 const bitrixMatches = [
   "*://*.bitrix24.ru/*",
-  "*://*.bitrix24.com/*",
-  "*://*.bitrix24.eu/*",
-  "*://*.bitrix24.de/*",
-  "*://*.bitrix24.ua/*",
-  "*://*.bitrix24.fr/*",
-  "*://*.bitrix24.es/*",
-  "*://*.bitrix24.it/*",
-  "*://*.bitrix24.pl/*",
-  "*://*.bitrix24.kz/*",
-  "*://*.bitrix24.by/*",
-  "*://*.bitrix24.tech/*",
+  "*://bitrix24.ru/*",
+  // нужно для кастомных порталов Bitrix24
   "*://*/*",
 ]
 

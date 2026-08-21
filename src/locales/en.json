@@ -75,5 +75,11 @@
     }
   },
   "updated": "Updated",
-  "welcomeMessage": "Bitrix24 sound settings"
+  "welcomeMessage": "Bitrix24 sound settings",
+  "site": {
+    "autoTitle": "Enabled automatically",
+    "autoHint": "On *.bitrix24.ru domains the extension works automatically.",
+    "toggleTitle": "Enable on this site",
+    "toggleHint": "For a custom Bitrix24 domain enable it manually. Disabled on other sites by default."
+  }
 }
