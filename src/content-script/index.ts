@@ -1,17 +1,42 @@
 import {
   isBitrixPortalHost,
+  SITE_ENABLE_MESSAGE,
   SOUND_MAP_MESSAGE,
-  type SoundSlotId,
+  STORAGE_KEYS,
 } from "src/shared/sounds"
 import {
   buildReplacementMap,
+  isOriginAllowed,
   rememberPortalOrigin,
-  type ReplacementMap,
 } from "src/shared/storage"
 
+let siteActive = false
+
 async function publishMap() {
+  if (!siteActive) {
+    return
+  }
   const map = await buildReplacementMap()
   window.postMessage({ type: SOUND_MAP_MESSAGE, map }, "*")
+}
+
+async function activateSite() {
+  if (siteActive) {
+    await publishMap()
+    return
+  }
+  siteActive = true
+  window.postMessage({ type: SITE_ENABLE_MESSAGE }, "*")
+  await publishMap()
+  if (window.top === window) {
+    void rememberPortalOrigin(location.origin)
+  }
+}
+
+async function boot() {
+  if (await isOriginAllowed(location.origin, location.hostname)) {
+    await activateSite()
+  }
 }
 
 window.addEventListener("message", (event: MessageEvent) => {
@@ -23,14 +48,31 @@ window.addEventListener("message", (event: MessageEvent) => {
   }
 })
 
-void publishMap()
-
-if (window.top === window && isBitrixPortalHost(location.hostname)) {
-  void rememberPortalOrigin(location.origin)
-}
+void boot()
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+  if (message?.type === `${SITE_ENABLE_MESSAGE}:status`) {
+    void isOriginAllowed(location.origin, location.hostname).then((allowed) => {
+      sendResponse({
+        allowed,
+        auto: isBitrixPortalHost(location.hostname),
+        origin: location.origin,
+      })
+    })
+    return true
+  }
+
+  if (message?.type === `${SITE_ENABLE_MESSAGE}:activate`) {
+    void activateSite().then(() => sendResponse({ ok: true }))
+    return true
+  }
+
   if (message?.type !== `${SOUND_MAP_MESSAGE}:preview`) {
+    return
+  }
+
+  if (!siteActive) {
+    sendResponse({ dataUrl: null })
     return
   }
 
@@ -63,8 +105,25 @@ chrome.storage.onChanged.addListener((changes, area) => {
     return
   }
   const keys = Object.keys(changes)
+
+  if (keys.includes(STORAGE_KEYS.enabledOrigins)) {
+    void isOriginAllowed(location.origin, location.hostname).then((allowed) => {
+      if (allowed) {
+        void activateSite()
+        return
+      }
+      if (siteActive) {
+        location.reload()
+      }
+    })
+  }
+
+  if (!siteActive) {
+    return
+  }
+
   const affectsSounds =
-    keys.includes("soundSettings") ||
+    keys.includes(STORAGE_KEYS.settings) ||
     keys.some((key) => key.startsWith("customSound:"))
   if (affectsSounds) {
     void publishMap()

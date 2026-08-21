@@ -81,12 +81,58 @@ export function presetUrl(presetId: PresetId): string {
   return chrome.runtime.getURL(presetPublicPath(presetId))
 }
 
+
+export async function loadEnabledOrigins(): Promise<string[]> {
+  const result = await chrome.storage.local.get(STORAGE_KEYS.enabledOrigins)
+  const value = result[STORAGE_KEYS.enabledOrigins]
+  if (!Array.isArray(value)) {
+    return []
+  }
+  return value.filter((item): item is string => typeof item === "string" && item.length > 0)
+}
+
+export async function setOriginEnabled(
+  origin: string,
+  enabled: boolean,
+): Promise<string[]> {
+  const current = await loadEnabledOrigins()
+  const next = enabled
+    ? Array.from(new Set([...current, origin]))
+    : current.filter((item) => item !== origin)
+  await chrome.storage.local.set({ [STORAGE_KEYS.enabledOrigins]: next })
+  return next
+}
+
+export async function isOriginAllowed(
+  origin: string,
+  hostname = new URL(origin).hostname,
+): Promise<boolean> {
+  if (isBitrixPortalHost(hostname)) {
+    return true
+  }
+  const enabled = await loadEnabledOrigins()
+  return enabled.includes(origin)
+}
+
+export function isHttpPageUrl(url: string | undefined): boolean {
+  if (!url) {
+    return false
+  }
+  try {
+    const parsed = new URL(url)
+    return parsed.protocol === "http:" || parsed.protocol === "https:"
+  } catch {
+    return false
+  }
+}
+
 export async function rememberPortalOrigin(origin: string): Promise<void> {
   await chrome.storage.local.set({ [STORAGE_KEYS.portalOrigin]: origin })
 }
 
 export async function resolvePortalOrigin(): Promise<string | null> {
   const tabs = await chrome.tabs.query({})
+  const enabledOrigins = await loadEnabledOrigins()
   for (const tab of tabs) {
     if (!tab.url) {
       continue
@@ -96,7 +142,10 @@ export async function resolvePortalOrigin(): Promise<string | null> {
       if (url.protocol !== "http:" && url.protocol !== "https:") {
         continue
       }
-      if (isBitrixPortalHost(url.hostname)) {
+      if (
+        isBitrixPortalHost(url.hostname) ||
+        enabledOrigins.includes(url.origin)
+      ) {
         await rememberPortalOrigin(url.origin)
         return url.origin
       }
@@ -119,12 +168,17 @@ export async function resolveOriginalSoundUrl(
   }
 
   const tabs = await chrome.tabs.query({})
+  const enabledOrigins = await loadEnabledOrigins()
   const bitrixTab = tabs.find((tab) => {
     if (!tab.id || !tab.url) {
       return false
     }
     try {
-      return isBitrixPortalHost(new URL(tab.url).hostname)
+      const url = new URL(tab.url)
+      return (
+        isBitrixPortalHost(url.hostname) ||
+        enabledOrigins.includes(url.origin)
+      )
     } catch {
       return false
     }

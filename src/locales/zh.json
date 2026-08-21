@@ -75,5 +75,11 @@
     }
   },
   "updated": "已更新",
-  "welcomeMessage": "Bitrix24 声音设置"
+  "welcomeMessage": "Bitrix24 声音设置",
+  "site": {
+    "autoTitle": "已自动启用",
+    "autoHint": "在 *.bitrix24.ru 域名上扩展会自动工作。",
+    "toggleTitle": "在此网站启用",
+    "toggleHint": "自定义 Bitrix24 域名请手动开启。默认在其他网站关闭。"
+  }
 }

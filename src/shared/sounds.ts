@@ -160,9 +160,11 @@ export const STORAGE_KEYS = {
   settings: "soundSettings",
   customPrefix: "customSound:",
   portalOrigin: "bitrixOrigin",
+  enabledOrigins: "enabledOrigins",
 } as const
 
 export const SOUND_MAP_MESSAGE = "b24-sound:map"
+export const SITE_ENABLE_MESSAGE = "b24-sound:site-enable"
 export const MAX_CUSTOM_BYTES = 2 * 1024 * 1024
 
 export function defaultSoundSettings(): SoundSettingsMap {
@@ -249,5 +251,5 @@ export function slotFilePath(slotId: SoundSlotId): string | null {
 }
 
 export function isBitrixPortalHost(hostname: string): boolean {
-  return /(^|\.)bitrix24\.[a-z.]+$/i.test(hostname)
+  return /(^|\.)bitrix24\.ru$/i.test(hostname)
 }
