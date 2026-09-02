@@ -45,6 +45,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/action-popup/settings': RouteRecordInfo<
+      '/action-popup/settings',
+      '/action-popup/settings',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/common/404': RouteRecordInfo<
       '/common/404',
       '/common/404',
@@ -160,6 +167,14 @@ declare module 'vue-router/auto-routes' {
     'src/ui/action-popup/pages/playground.vue': {
       routes:
         | '/action-popup/playground'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/ui/action-popup/pages/settings.vue': {
+      routes:
+        | '/action-popup/settings'
       views:
         | never
       pathParamNames:

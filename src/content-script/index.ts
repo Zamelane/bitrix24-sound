@@ -9,6 +9,11 @@ import {
   isOriginAllowed,
   rememberPortalOrigin,
 } from "src/shared/storage"
+import {
+  ONLINE_STATUS_SETTING_MESSAGE,
+  ONLINE_STATUS_STORAGE_KEY,
+} from "src/shared/online-status"
+import "./index.css"
 
 let siteActive = false
 
@@ -20,14 +25,28 @@ async function publishMap() {
   window.postMessage({ type: SOUND_MAP_MESSAGE, map }, "*")
 }
 
+async function publishOnlineStatusSetting() {
+  if (!siteActive) {
+    return
+  }
+  const result = await chrome.storage.local.get(ONLINE_STATUS_STORAGE_KEY)
+  window.postMessage(
+    {
+      type: ONLINE_STATUS_SETTING_MESSAGE,
+      enabled: result[ONLINE_STATUS_STORAGE_KEY] === true,
+    },
+    "*",
+  )
+}
+
 async function activateSite() {
   if (siteActive) {
-    await publishMap()
+    await Promise.all([publishMap(), publishOnlineStatusSetting()])
     return
   }
   siteActive = true
   window.postMessage({ type: SITE_ENABLE_MESSAGE }, "*")
-  await publishMap()
+  await Promise.all([publishMap(), publishOnlineStatusSetting()])
   if (window.top === window) {
     void rememberPortalOrigin(location.origin)
   }
@@ -127,5 +146,9 @@ chrome.storage.onChanged.addListener((changes, area) => {
     keys.some((key) => key.startsWith("customSound:"))
   if (affectsSounds) {
     void publishMap()
+  }
+
+  if (keys.includes(ONLINE_STATUS_STORAGE_KEY)) {
+    void publishOnlineStatusSetting()
   }
 })

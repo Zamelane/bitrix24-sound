@@ -13,9 +13,17 @@
     "warning": "Warning!"
   },
   "settings": {
+    "back": "Back",
     "cancelButton": "Cancel",
+    "open": "Open settings",
     "saveButton": "Save",
     "title": "Sounds"
+  },
+  "onlineStatus": {
+    "group": "Chats",
+    "settingsTitle": "Chat settings",
+    "title": "Show online status",
+    "hint": "Adds an indicator to avatars of users who are currently online."
   },
   "sounds": {
     "actions": {
