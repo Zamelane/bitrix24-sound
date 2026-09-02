@@ -1,15 +1,13 @@
 <script setup lang="ts"></script>
 
 <template>
-  <UApp>
+  <UApp class="app-surface flex min-h-screen flex-col">
     <AppHeader />
 
-    <div class="p-4 prose dark:prose-invert">
+    <main class="app-content prose flex-1 dark:prose-invert">
       <RouterView />
-    </div>
+    </main>
 
     <AppFooter />
   </UApp>
 </template>
-
-<style scoped></style>

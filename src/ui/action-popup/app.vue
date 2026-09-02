@@ -1,12 +1,12 @@
 <script setup lang="ts"></script>
 
 <template>
-  <UApp>
+  <UApp class="app-surface flex min-h-screen flex-col">
     <AppHeader popup-navigation />
 
-    <div class="p-3">
+    <main class="app-content flex-1">
       <RouterView />
-    </div>
+    </main>
 
     <AppFooter />
   </UApp>

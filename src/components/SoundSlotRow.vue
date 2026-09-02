@@ -46,13 +46,13 @@ function onFileChange(event: Event) {
 </script>
 
 <template>
-  <div class="rounded-xl border border-default bg-default/40 px-3 py-2.5">
+  <div class="settings-card">
     <div class="flex items-start justify-between gap-3">
       <div class="min-w-0">
-        <div class="text-sm font-medium truncate">
+        <div class="truncate text-sm font-medium">
           {{ t(`sounds.slots.${soundSlot.id}`) }}
         </div>
-        <div class="text-[11px] text-muted truncate font-mono">
+        <div class="truncate text-[10px] text-muted">
           {{ soundSlot.path }}
         </div>
       </div>
@@ -62,6 +62,7 @@ function onFileChange(event: Event) {
           size="xs"
           color="neutral"
           variant="ghost"
+          class="icon-button"
           :title="t('sounds.actions.preview')"
           @click="emit('preview')"
         />
@@ -70,13 +71,14 @@ function onFileChange(event: Event) {
           size="xs"
           color="neutral"
           variant="ghost"
+          class="icon-button"
           :title="t('sounds.actions.upload')"
           @click="fileInput?.click()"
         />
       </div>
     </div>
 
-    <div class="mt-2 flex items-center gap-2">
+    <div class="mt-3 flex items-center gap-2">
       <USelect
         :model-value="modelValue"
         :items="options"
@@ -89,7 +91,7 @@ function onFileChange(event: Event) {
 
     <div
       v-if="customName"
-      class="mt-1.5 flex items-center justify-between gap-2 text-[11px] text-muted"
+      class="mt-2 flex items-center justify-between gap-2 text-[11px] text-muted"
     >
       <span class="truncate">{{ customName }}</span>
       <UButton

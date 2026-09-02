@@ -22,9 +22,9 @@ const { t } = useI18n()
     <section
       v-for="(slots, group) in groupedSlots"
       :key="group"
-      class="space-y-2"
+      class="space-y-2.5"
     >
-      <h2 class="text-xs font-semibold uppercase tracking-wide text-muted">
+      <h2 class="section-label">
         {{ t(`sounds.groups.${group}`) }}
       </h2>
       <SoundSlotRow
@@ -40,7 +40,7 @@ const { t } = useI18n()
       />
     </section>
 
-    <p class="text-xs text-muted">
+    <p class="px-1 text-[11px] leading-relaxed text-muted">
       {{ t("sounds.hints.custom") }}
     </p>
     <p

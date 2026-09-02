@@ -4,10 +4,8 @@ const githubUrl = __GITHUB_URL__
 </script>
 
 <template>
-  <footer
-    class="flex justify-between items-center gap-2 px-3 py-2 text-[11px] text-muted border-t border-default"
-  >
-    <span class="font-mono tracking-wide">{{ commit }}</span>
+  <footer class="app-footer">
+    <span class="tracking-[0.08em]">{{ commit }}</span>
     <UButton
       :href="githubUrl"
       target="_blank"
@@ -17,6 +15,7 @@ const githubUrl = __GITHUB_URL__
       color="neutral"
       size="xs"
       square
+      class="icon-button"
       :title="githubUrl"
     />
   </footer>
