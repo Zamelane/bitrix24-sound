@@ -15,6 +15,7 @@ declare module 'vue' {
     AppHeader: typeof import('./../components/AppHeader.vue')['default']
     DisplayError: typeof import('./../components/state/DisplayError.vue')['default']
     LoadingSpinner: typeof import('./../components/state/LoadingSpinner.vue')['default']
+    OnlineStatusSettings: typeof import('./../components/OnlineStatusSettings.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterLinkUp: typeof import('./../components/RouterLinkUp.vue')['default']
     RouterView: typeof import('vue-router')['RouterView']

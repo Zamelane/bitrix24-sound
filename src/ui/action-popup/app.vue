@@ -2,7 +2,7 @@
 
 <template>
   <UApp>
-    <AppHeader />
+    <AppHeader popup-navigation />
 
     <div class="p-3">
       <RouterView />

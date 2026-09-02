@@ -1,0 +1,17 @@
+.b24-sound-online-avatar {
+  position: relative !important;
+}
+
+.b24-sound-online-indicator {
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  z-index: 2;
+  box-sizing: border-box;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #2fc6f6;
+  pointer-events: none;
+}
