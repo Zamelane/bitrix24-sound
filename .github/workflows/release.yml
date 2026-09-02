@@ -1,0 +1,89 @@
+name: release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  detect_release:
+    runs-on: ubuntu-latest
+    outputs:
+      should_release: ${{ steps.commits.outputs.should_release }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check commit messages
+        id: commits
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.sha }}
+        run: |
+          range="${BEFORE_SHA}..${AFTER_SHA}"
+          if [[ "$BEFORE_SHA" =~ ^0+$ ]]; then
+            range="$AFTER_SHA"
+          fi
+
+          should_release=false
+          while IFS= read -r subject; do
+            if [[ "$subject" == "Update version to"* ]]; then
+              should_release=true
+              break
+            fi
+          done < <(git log --format=%s "$range")
+
+          echo "should_release=${should_release}" >> "$GITHUB_OUTPUT"
+
+  build_and_release:
+    needs: detect_release
+    if: needs.detect_release.outputs.should_release == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 23
+          cache: npm
+
+      - run: npm ci
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run build
+
+      - name: Read package version
+        id: package
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+
+      - name: Verify release archives
+        env:
+          VERSION: ${{ steps.package.outputs.version }}
+        run: |
+          test -f "dist/chrome-${VERSION}.zip"
+          test -f "dist/firefox-${VERSION}.zip"
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.package.outputs.version }}
+        run: |
+          gh release create "v${VERSION}" \
+            "dist/chrome-${VERSION}.zip" \
+            "dist/firefox-${VERSION}.zip" \
+            --target "$GITHUB_SHA" \
+            --title "v${VERSION}" \
+            --generate-notes
