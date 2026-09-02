@@ -9,6 +9,9 @@ applyTheme(isDark.value ? "dark" : "light")
   <UButton
     :icon="isDark ? 'lucide:moon' : 'lucide:sun'"
     variant="ghost"
+    color="neutral"
+    square
+    class="icon-button"
     @click="toggleDark"
   />
 </template>

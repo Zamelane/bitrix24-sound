@@ -24,50 +24,55 @@ function closePopupSettings() {
 </script>
 
 <template>
-  <div class="flex justify-between gap-4 p-2 bg-neutral">
+  <header class="app-header">
     <div
       v-if="isPopupSettings"
-      class="flex items-center gap-1"
+      class="flex min-w-0 items-center gap-2"
     >
       <UButton
         icon="lucide:arrow-left"
         variant="ghost"
+        color="neutral"
         square
+        class="icon-button"
         :aria-label="$t('settings.back')"
         :title="$t('settings.back')"
         @click="closePopupSettings"
       />
-      <div class="font-semibold text-primary">
+      <div class="truncate text-sm font-medium tracking-tight">
         {{ $t("onlineStatus.settingsTitle") }}
       </div>
     </div>
     <RouterLink
       v-else
       to="/"
-      class="flex gap-2 items-center"
+      class="flex min-w-0 items-center gap-2.5"
     >
-      <img
-        src="@assets/logo.png"
-        alt="logo"
-        class="h-8 w-auto"
-      />
-      <div class="font-semibold text-primary">
-        Bitrix24 Sound
+      <!-- <span class="grid size-8 place-items-center rounded-lg bg-white">
+        <img
+          src="@assets/logo.png"
+          alt=""
+          class="size-6 rounded-[6px] object-contain"
+        />
+      </span> -->
+      <div class="truncate text-sm font-medium tracking-tight">
+        Bitrix24
+        <span class="text-[#3ad353]">Sound</span>
       </div>
     </RouterLink>
-    <div class="flex gap-2 justify-center">
+    <div class="flex items-center gap-1">
       <UButton
         v-if="popupNavigation && !isPopupSettings"
         icon="lucide:settings"
         variant="ghost"
+        color="neutral"
         square
+        class="icon-button"
         :aria-label="$t('settings.open')"
         :title="$t('settings.open')"
         @click="openPopupSettings"
       />
       <ThemeSwitch />
     </div>
-  </div>
+  </header>
 </template>
-
-<style scoped></style>
