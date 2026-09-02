@@ -29,4 +29,3 @@ const { data: enabled } = useBrowserLocalStorage(
     </div>
   </section>
 </template>
-

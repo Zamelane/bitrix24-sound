@@ -5,4 +5,3 @@ import OnlineStatusSettings from "src/components/OnlineStatusSettings.vue"
 <template>
   <OnlineStatusSettings />
 </template>
-
