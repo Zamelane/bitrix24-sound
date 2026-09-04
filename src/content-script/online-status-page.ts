@@ -100,7 +100,6 @@ export function installOnlineStatusFeature() {
       cancelAnimationFrame(renderFrame)
       renderFrame = null
     }
-
     if (!enabled) {
       removeIndicators()
       return
@@ -185,14 +184,7 @@ export function installOnlineStatusFeature() {
         }
       })
     }
-    return nativeOpen.call(
-      this,
-      method,
-      url,
-      async ?? true,
-      username,
-      password,
-    )
+    return nativeOpen.call(this, method, url, async ?? true, username, password)
   }
 
   window.addEventListener("message", (event: MessageEvent) => {
