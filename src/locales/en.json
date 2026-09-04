@@ -16,14 +16,19 @@
     "back": "Back",
     "cancelButton": "Cancel",
     "open": "Open settings",
+    "additionalTitle": "Additional settings",
     "saveButton": "Save",
     "title": "Sounds"
   },
   "onlineStatus": {
     "group": "Chats",
-    "settingsTitle": "Chat settings",
+    "settingsTitle": "Additional settings",
     "title": "Show online status",
     "hint": "Adds an indicator to avatars of users who are currently online."
+  },
+  "readReceipts": {
+    "title": "Do not mark messages as read",
+    "hint": "Blocks read receipts from being sent to Bitrix24."
   },
   "sounds": {
     "actions": {

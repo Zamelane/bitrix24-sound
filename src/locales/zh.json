@@ -16,14 +16,19 @@
     "back": "返回",
     "cancelButton": "取消",
     "open": "打开设置",
+    "additionalTitle": "其他设置",
     "saveButton": "保存",
     "title": "声音"
   },
   "onlineStatus": {
     "group": "聊天",
-    "settingsTitle": "聊天设置",
+    "settingsTitle": "其他设置",
     "title": "显示在线状态",
     "hint": "为当前在线用户的头像添加状态指示器。"
+  },
+  "readReceipts": {
+    "title": "不将消息标记为已读",
+    "hint": "阻止向 Bitrix24 发送消息已读状态。"
   },
   "sounds": {
     "actions": {
