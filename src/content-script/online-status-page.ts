@@ -196,4 +196,6 @@ export function installOnlineStatusFeature() {
       setEnabled(data.enabled === true)
     }
   })
+
+  window.postMessage({ type: `${ONLINE_STATUS_SETTING_MESSAGE}:request` }, "*")
 }
