@@ -13,6 +13,10 @@ import {
   ONLINE_STATUS_SETTING_MESSAGE,
   ONLINE_STATUS_STORAGE_KEY,
 } from "src/shared/online-status"
+import {
+  BLOCK_READ_RECEIPTS_STORAGE_KEY,
+  READ_RECEIPTS_SETTING_MESSAGE,
+} from "src/shared/read-receipts"
 import "./index.css"
 
 let siteActive = false
@@ -39,14 +43,36 @@ async function publishOnlineStatusSetting() {
   )
 }
 
+async function publishReadReceiptSetting() {
+  if (!siteActive) {
+    return
+  }
+  const result = await chrome.storage.local.get(BLOCK_READ_RECEIPTS_STORAGE_KEY)
+  window.postMessage(
+    {
+      type: READ_RECEIPTS_SETTING_MESSAGE,
+      enabled: result[BLOCK_READ_RECEIPTS_STORAGE_KEY] === true,
+    },
+    "*",
+  )
+}
+
 async function activateSite() {
   if (siteActive) {
-    await Promise.all([publishMap(), publishOnlineStatusSetting()])
+    await Promise.all([
+      publishMap(),
+      publishOnlineStatusSetting(),
+      publishReadReceiptSetting(),
+    ])
     return
   }
   siteActive = true
   window.postMessage({ type: SITE_ENABLE_MESSAGE }, "*")
-  await Promise.all([publishMap(), publishOnlineStatusSetting()])
+  await Promise.all([
+    publishMap(),
+    publishOnlineStatusSetting(),
+    publishReadReceiptSetting(),
+  ])
   if (window.top === window) {
     void rememberPortalOrigin(location.origin)
   }
@@ -62,8 +88,15 @@ window.addEventListener("message", (event: MessageEvent) => {
   if (event.source !== window) {
     return
   }
-  if (event.data?.type === `${SOUND_MAP_MESSAGE}:request`) {
+  const type = event.data?.type
+  if (type === `${SOUND_MAP_MESSAGE}:request`) {
     void publishMap()
+  }
+  if (type === `${ONLINE_STATUS_SETTING_MESSAGE}:request`) {
+    void publishOnlineStatusSetting()
+  }
+  if (type === `${READ_RECEIPTS_SETTING_MESSAGE}:request`) {
+    void publishReadReceiptSetting()
   }
 })
 
@@ -150,5 +183,9 @@ chrome.storage.onChanged.addListener((changes, area) => {
 
   if (keys.includes(ONLINE_STATUS_STORAGE_KEY)) {
     void publishOnlineStatusSetting()
+  }
+
+  if (keys.includes(BLOCK_READ_RECEIPTS_STORAGE_KEY)) {
+    void publishReadReceiptSetting()
   }
 })

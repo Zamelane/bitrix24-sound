@@ -40,7 +40,7 @@ function closePopupSettings() {
         @click="closePopupSettings"
       />
       <div class="truncate text-sm font-medium tracking-tight">
-        {{ $t("onlineStatus.settingsTitle") }}
+        {{ $t("settings.additionalTitle") }}
       </div>
     </div>
     <RouterLink

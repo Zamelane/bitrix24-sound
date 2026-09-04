@@ -7,6 +7,7 @@ import {
   type SoundSlotId,
 } from "src/shared/sounds"
 import { installOnlineStatusFeature } from "src/content-script/online-status-page"
+import { installReadReceiptBlocker } from "src/content-script/read-receipts-page"
 
 type ReplacementMap = Record<string, string | null>
 
@@ -337,3 +338,4 @@ window.addEventListener("message", (event: MessageEvent) => {
 })
 
 installOnlineStatusFeature()
+installReadReceiptBlocker()
